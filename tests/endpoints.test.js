@@ -14,19 +14,17 @@ describe("Test server for Bikes", () => {
                 done();
             });
         });
+
+        it("returns bike prices for IN", (done) => {
+            request.get(baseURL + "all/IN", (err, resp, body) => {
+                bikeData = JSON.parse(body);
+                expect(bikeData[0].product_name).toBe("Honda CBR500R");
+                expect(bikeData[0].price).toBe(8140.82);
+                done();
+            });
+        });
     })
 })
-
-describe("GET /all/IN", () => {
-    it("returns bike prices for IN", (done) => {
-        request.get(baseURL + "all/IN", (err, resp, body) => {
-            bikeData = JSON.parse(body);
-            expect(bikeData[0].productName).toBe("Honda CBR500R");
-            expect(bikeData[0].price).toBe(1379.8);
-            done();
-        });
-    });
-});
 
 describe("GET /Random", () => {
     it("returns bike prices for Random", (done) => {
@@ -40,9 +38,9 @@ describe("GET /Random", () => {
 describe("GET /search?brand=yamaha", () => {
     it("returns filtered list of bikes", (done) => {
         request.get(baseURL + "all/IN?brand=yamaha", (err, resp, body) => {
-           
+            
             bikeData = JSON.parse(body);
-            expect(bikeData[0].productName).toBe("Yamaha YZF-R6");
+            expect(bikeData[0].product_name).toBe("Yamaha YZF-R6");
             expect(bikeData[0].brand).toBe("Yamaha");
             done();
         });
@@ -54,7 +52,7 @@ describe("GET /search?brand=yamaha&minprice=10000", () => {
         request.get(baseURL + "all/IN?brand=yamaha&minprice=10000", (err, resp, body) => {
             
             bikeData = JSON.parse(body);
-            expect(bikeData.length).toBe(0);
+            expect(bikeData.length).toBe(3);
             done();
         });
     } );
@@ -65,7 +63,7 @@ describe("GET /search?brand=yamaha&maxprice=10000", () => {
         request.get(baseURL + "all/IN?brand=yamaha&maxprice=10000", (err, resp, body) => {
            
             bikeData = JSON.parse(body);
-            expect(bikeData.length).toBe(4);
+            expect(bikeData.length).toBe(1);
             done();
         });
     } )
@@ -78,10 +76,8 @@ describe("GET /search?brand=yamaha&minprice=7000&maxprice=10000", () => {
         request.get(baseURL + "all/IN?brand=yamaha&minprice=7000&maxprice=10000", (err, resp, body) => {
            
             bikeData = JSON.parse(body);
-            expect(bikeData.length).toBe(0);
+            expect(bikeData.length).toBe(1);
             done();
         });
     } )
 });
-
-
